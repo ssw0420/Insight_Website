@@ -64,7 +64,9 @@ public class NoticeService {
 	public Notice getNotice(Integer noticeId) {  
         Optional<Notice> notice = this.noticeRepository.findById(noticeId);
         if (notice.isPresent()) {
-            return notice.get();
+        	Notice noticeview = notice.get();
+        	noticeview.setNoticeView(noticeview.getNoticeView()+1);
+        	return this.noticeRepository.save(noticeview);
         } else {
             throw new DataNotFoundException("notice not found");
         }

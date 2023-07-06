@@ -15,4 +15,6 @@ public interface NoticeRepository extends JpaRepository<Notice, Integer> {
 	Page<Notice> findByNoticeCategory(String noticeCategory, Pageable pageable); // 카테고리 설정
 	Page<Notice> findAll(Specification<Notice> spec, Pageable pageable);
 	Page<Notice> findByNoticeCategory(Specification<Notice> spec, String noticeCategory, Pageable pageable); // 카테고리 설정
+	
+	
 }

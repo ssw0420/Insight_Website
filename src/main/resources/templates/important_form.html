@@ -18,13 +18,7 @@
             <textarea th:field="*{impoText}" class="form-control" rows="10"></textarea>
         </div>
         
-        
-        
-        <!--<div>
-			<input type="checkbox" th:field="*{impoTf}" class="form-check-input">
-			<input type="hidden" name="impoTf" value="on">  체크를 안하니까 true , value="off" 이면 체크시 false
-			<label for="impoTf" class="form-check-label"> 필독 </label>
-		</div>-->
+       
 		
     	<input type="submit" value="저장하기" class="btn btn-primary my-2">
 		<a type="button" class="btn btn-primary my-2" th:href="@{/important/main}">취소</a>
@@ -33,7 +27,7 @@
         <input type="hidden" name="_impoTf" value="off">   <!--hidden은 체크박스의 name 속성값 앞에 _붙이기로 약속-->
 		<label for="impoTf" class="form-check-label">필독</label>
 			
-        <input type="file" name="file1">
+	
  
     </form>
     

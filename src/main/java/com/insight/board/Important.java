@@ -3,8 +3,6 @@ package com.insight.board;
 
 import java.time.LocalDateTime;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.insight.user.UserInfo;
 
 
@@ -40,4 +38,7 @@ public class Important {
     private Boolean impoTf;		// 필독 여부 
     
     private LocalDateTime impoModifyRegister;
+    
+    
+   
 }

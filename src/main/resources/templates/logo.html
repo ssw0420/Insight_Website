@@ -3,7 +3,7 @@
           <a th:href="@{/user/login}" sec:authorize="isAnonymous()" style="text-decoration: blink; ">로그인</a>
           <a th:href="@{/user/logout}" sec:authorize="isAuthenticated()" style="text-decoration: blink; ">로그아웃</a>
           <a th:href="@{/user/join}" sec:authorize="isAnonymous()" style="text-decoration: blink; ">회원가입</a>
-          <a th:href="@{|/user/detail/${#authentication.principal.username}|}" sec:authorize="isAuthenticated()" style="text-decoration: blink; ">마이페이지</a>
+          <a th:href="@{|/user/detail/${#authentication.principal.username}|}" th:text="${#authentication.principal.username}" sec:authorize="isAuthenticated()"></a>
         </div>
         <div id="logo">
                     <!--매핑 : 홈  insight-->
