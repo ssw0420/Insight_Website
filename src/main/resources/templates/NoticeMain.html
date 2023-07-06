@@ -1,0 +1,78 @@
+<html lang ='kr' layout:decorate="~{layout}">
+    <head>
+        <title>게시판</title>
+      </head>
+        <div layout:fragment="content" style="float:right; width:75%;">
+        
+         <!--기본 상단 요소 건들지 말것 수정필요시 '최영미'한테 연락하여 같이 고칠 것!!! -->
+        
+       <div id="wrap" >
+       <div class="container" >
+       <h1>게시판</h1>
+       	<div id="category" >
+       	<ul style="display:inline;">
+			<li><a class="categorylink" href="/notice/main">전체</a></li>
+			<li>|</li>
+			<li><a class="categorylink" href="/notice/main/free">자유게시판</a></li>
+			<li>|</li>
+			<li><a class="categorylink" href="/notice/main/coding">코딩</a></li>
+			<li>|</li>
+			<li><a class="categorylink" href="/notice/main/gallery">갤러리</a></li>
+			<li>|</li>
+			<li><a class="categorylink" href="/notice/main/contest">공모전</a></li>
+	   	</ul>
+	   </div>
+           	<table class="table">
+		    	<thead class="table-dark">
+		        	<tr class="text-center">
+		        		<tr>
+                  	  <th>번호</th>
+                  	  <th>제목</th>
+                  	  <th>작성자</th>
+                  	  <th>작성일</th>
+                  	  <th>조회수</th>
+               	 </tr>
+          	  </thead>
+           	 <tbody>
+                <tr th:each ="notice, loop : ${noticeMain}">
+					<td th:text="${noticeMain.getTotalElements - (noticeMain.number * noticeMain.size) - loop.index}"></td>
+				<td>
+					<a th:href="@{|/Notice/detail/${notice.id}|}" th:text="${notice.title}"></a>
+					<span class="text-danger small ms-2"
+                        th:if="${#lists.size(notice.commentList) > 0}" 
+                        th:text="${#lists.size(notice.commentList)}">
+                    </span>
+				</td>
+				<td th:text="${#temporals.format(notice.register, 'yyyy-MM-dd HH:mm')}"></td>
+			</tr>
+			</tbody>
+			</table>
+			<div th:if="${!noticeMain.isEmpty()}">
+        		<ul class="pagination justify-content-center">
+            		<li class="page-item" th:classappend="${!noticeMain.hasPrevious} ? 'disabled'">
+                		<a class="page-link"
+                    		th:href="@{|?page=${noticeMain.number-1}|}">
+                    		<span>이전</span>
+                		</a>
+            		</li>
+            		<li th:each="page: ${#numbers.sequence(0, noticeMain.totalPages-1)}"
+            			th:if="${page >= noticeMain.number-2 and page <= noticeMain.number+2}"
+                		th:classappend="${page == noticeMain.number} ? 'active'"
+                		class="page-item">
+                		<a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+            		</li>
+            		<li class="page-item" th:classappend="${!noticeMain.hasNext} ? 'disabled'">
+                		<a class="page-link" th:href="@{|?page=${noticeMain.number+1}|}">
+                    		<span>다음</span>
+                		</a>
+            		</li>
+        		</ul>
+    		</div>
+    		<div class="submit-button">
+			<a th:href="@{/Notice/input}" class="btn">글쓰기</a>
+			</div>
+		</div>
+        
+      </div>
+      </div>
+</html>

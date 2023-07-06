@@ -1,0 +1,86 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+    <!-- 질문 -->
+    <h2 class="border-bottom py-2" th:text="${notice.noticeTitle}"></h2>
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="card-text" th:utext="${@commonUtil.markdown(notice.noticeText)}"></div>
+            
+            <div class="d-flex justify-noticeText-end">
+				<div th:if="${notice.noticeModifyRegister != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                <div class="mb-2">수정 시간</div>
+                <div th:text="${#temporals.format(notice.noticeModifyRegister, 'yyyy-MM-dd HH:mm')}"></div>
+            </div>
+                <div class="badge bg-light text-dark p-2 text-start">
+					<div class="mb-2">
+                    	<span th:if="${notice.noticeAuthor != null}" th:text="${notice.noticeAuthor.studentName}"></span>
+                	</div>
+                    <div th:text="${#temporals.format(notice.noticeRegister, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
+            </div>
+            <div class="my-3">
+	            <a th:href="@{|/notice/modify/${notice.noticeId}|}" class="btn btn-sm btn-outline-secondary"
+	                sec:authorize="isAuthenticated()"
+	                th:if="${notice.noticeAuthor != null and #authentication.getPrincipal().getUsername() == notice.noticeAuthor.username}"
+	                th:text="수정"></a>
+                <a href="javascript:void(0);" th:data-uri="@{|/notice/delete/${notice.noticeId}|}"
+	                class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+	                th:if="${notice.noticeAuthor != null and #authentication.getPrincipal().getUsername() == notice.noticeAuthor.username}"
+	                th:text="삭제"></a>
+	        </div>
+        </div>
+    </div>
+    <!-- 답변의 갯수 표시 -->
+    <h5 class="border-bottom my-3 py-2" 
+        th:text="|${#lists.size(notice.commentList)}개의 답변이 있습니다.|"></h5>
+    <!-- 답변 반복 시작 -->
+    <div class="card my-3" th:each="noticeComment : ${notice.commentList}">
+        <a th:id="|comment_${noticeComment.cmId}|"></a>
+        <div class="card-body">
+            <div class="card-text" th:utext="${@commonUtil.markdown(noticeComment.cmText)}"></div>
+            <div class="d-flex justify-noticeText-end">
+				
+			 <div th:if="${noticeComment.cmModifyRegister != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                <div class="mb-2">수정 시간</div>
+                <div th:text="${#temporals.format(noticeComment.cmModifyRegister, 'yyyy-MM-dd HH:mm')}"></div>
+             </div>
+            
+                <div class="badge bg-light text-dark p-2 text-start">
+					<div class="mb-2">
+                    	<span th:if="${noticeComment.cmAuthor != null}" th:text="${noticeComment.cmAuthor.studentName}"></span>
+                	</div>
+                    <div th:text="${#temporals.format(noticeComment.cmRegister, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
+            </div>
+            <div class="my-3">
+	            <a th:href="@{|/comment/modify/${noticeComment.cmId}|}" class="btn btn-sm btn-outline-secondary"
+	                sec:authorize="isAuthenticated()"
+	                th:if="${noticeComment.cmAuthor != null and #authentication.getPrincipal().getUsername() == noticeComment.cmAuthor.username}"
+	                th:text="수정"></a>
+                 <a href="javascript:void(0);" th:data-uri="@{|/comment/delete/${noticeComment.cmId}|}"
+	                class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+	                th:if="${noticeComment.cmAuthor != null and #authentication.getPrincipal().getUsername() == noticeComment.cmAuthor.username}"
+	                th:text="삭제"></a>
+        	</div>
+        </div>
+    </div>
+    <!-- 답변 반복 끝  -->
+    <!-- 답변 작성 -->
+    <form th:action="@{|/comment/create/${notice.noticeId}|}" th:object="${noticeCommentForm}" method="post" class="my-3">
+		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <textarea sec:authorize="isAnonymous()" disabled th:field="*{cmText}" class="form-control" rows="10"></textarea>
+        <textarea sec:authorize="isAuthenticated()" th:field="*{cmText}" class="form-control" rows="10"></textarea>
+        <input type="submit" value="답변등록" class="btn btn-primary my-2">
+    </form>
+</div>
+<script layout:fragment="script" type='text/javascript'>
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+</script>
+</html>

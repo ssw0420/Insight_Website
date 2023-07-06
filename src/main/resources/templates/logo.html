@@ -1,0 +1,33 @@
+<div th:fragment="logo">
+		<div class="join-login-btn" >
+          <a th:href="@{/user/login}" sec:authorize="isAnonymous()" style="text-decoration: blink; ">로그인</a>
+          <a th:href="@{/user/logout}" sec:authorize="isAuthenticated()" style="text-decoration: blink; ">로그아웃</a>
+          <a th:href="@{/user/join}" sec:authorize="isAnonymous()" style="text-decoration: blink; ">회원가입</a>
+          <a th:href="@{|/user/detail/${#authentication.principal.username}|}" sec:authorize="isAuthenticated()" style="text-decoration: blink; ">마이페이지</a>
+        </div>
+        <div id="logo">
+                    <!--매핑 : 홈  insight-->
+         <h1><a href="/" style="text-decoration: blink;">insight</a></h1>
+          
+        </div>
+		<div id ="menu">
+        	<ul class ="menu">
+	             <!--매핑 : 공지사항 insight/Importantmain , 게시판 : insight/Notice , 캘린더 : insight/Calendermain-->
+		          <li><a href="/important/main" style="text-decoration: blink;">공지사항</a></li>
+		          <li><a href="/notice/main/all" style="text-decoration: blink;">게시판</a></li>
+		          <li><a href="#" style="text-decoration: blink;" id="calendarLink">캘린더</a></li>
+	        </ul>
+        </div>
+			<script>
+			  // 현재 날짜를 가져오기
+			  let today = new Date();
+			  let year = today.getFullYear();
+			  let month = ('0' + (today.getMonth() + 1)).slice(-2);
+			  let day = ('0' + today.getDate()).slice(-2);
+			  let calendarLink = document.getElementById("calendarLink");
+			  // 링크에 오늘 날짜를 추가
+			  calendarLink.href = "/calendar/" + year + "-" + month + "-" + day;
+			  calendarLink.id = calendarLink.getAttribute("href").replace("#", "");
+			
+			</script>
+</div>

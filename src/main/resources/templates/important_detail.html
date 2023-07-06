@@ -1,0 +1,43 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+    <!-- 질문 -->
+    <h2 class="border-bottom py-2" th:text="${important.impoTitle}"></h2>
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="card-text" th:utext="${@commonUtil.markdown(important.impoText)}"></div>
+            
+            <div class="d-flex justify-impoText-end">
+				<div th:if="${important.impoModifyRegister != null}" class="badge bg-light text-dark p-2 text-start mx-3">
+                <div class="mb-2">수정 시간</div>
+                <div th:text="${#temporals.format(important.impoModifyRegister, 'yyyy-MM-dd HH:mm')}"></div>
+            </div>
+                <div class="badge bg-light text-dark p-2 text-start">
+					<div class="mb-2">
+                    	<span th:if="${important.impoAuthor != null}" th:text="${important.impoAuthor.studentName}"></span>
+                	</div>
+                    <div th:text="${#temporals.format(important.impoRegister, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
+            </div>
+            <div class="my-3">
+	            <a th:href="@{|/important/modify/${important.impoId}|}" class="btn btn-sm btn-outline-secondary"
+	                sec:authorize="isAuthenticated()"
+	                th:if="${important.impoAuthor != null and #authentication.getPrincipal().getUsername() == important.impoAuthor.username}"
+	                th:text="수정"></a>
+                <a href="javascript:void(0);" th:data-uri="@{|/important/delete/${important.impoId}|}"
+	                class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+	                th:if="${important.impoAuthor != null and #authentication.getPrincipal().getUsername() == important.impoAuthor.username}"
+	                th:text="삭제"></a>
+	        </div>
+        </div>
+    </div>
+<script layout:fragment="script" type='text/javascript'>
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+</script>
+</html>

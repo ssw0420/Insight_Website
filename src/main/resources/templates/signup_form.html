@@ -1,0 +1,75 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>회원가입</h4>
+        </div>
+    </div>
+    <form th:action="@{/user/join}" th:object="${userCreateForm}" method="post">
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        
+        <div class="mb-3">
+            <label for="username" class="form-label">학번ID</label>
+            <input type="text" placeholder="20212252"th:field="*{username}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="studentName" class="form-label">이름</label>
+            <input type="text" th:field="*{studentName}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password1" class="form-label">비밀번호</label>
+            <input type="password" th:field="*{password1}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password2" class="form-label">비밀번호 확인</label>
+            <input type="password" th:field="*{password2}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">이메일</label>
+            <input type="email" th:field="*{email}" class="form-control">
+        </div>
+        <div class="mb-3">
+			<label for="phoneNumber" class="form-label">전화번호(-제외)</label>
+            <input type="text" placeholder="01012345678" th:field="*{phoneNumber}" class="form-control">
+		</div>
+        <div class="form-group">
+                <label for="major" style="display: inline-block">전공:</label>
+                <select th:field="*{major}" required style="width:12%; display:inline-block;">
+                    <option value="산업ICT기술공학과">산업ICT기술공학과</option>
+                    <option value="컴퓨터공학과">컴퓨터공학과</option>
+                    <option value="기계공학과">기계공학과</option>
+                </select>
+        </div>
+        <div class="form-group">
+                <label for="grade" style="display: inline-block">학년:</label>
+                <select th:field="*{grade}" required style="width:12%; display:inline-block;">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+        </div>
+        <div class="mb-3">
+			<label for="doing" class="form-label">현재 하고 있는 활동</label>
+            <textarea type="text" placeholder="학생회" th:field="*{doing}" class="form-control"></textarea>
+		</div>
+		<div class="form-group">
+                <label for="condition" style="display: inline-block">재적상태:</label>
+                <select th:field="*{condition}" required style="width:12%; display:inline-block;">
+                    <option value="재학">재학</option>
+                    <option value="휴학">휴학</option>
+                </select>
+        </div>
+        <div class="mb-3">
+			<label for="wantedAct" class="form-label">원하는 활동</label>
+            <textarea type="text" placeholder="웹사이트 제작" th:field="*{wantedAct}" class="form-control"></textarea>
+		</div>
+		<div class="mb-3">
+			<label for="introduction" class="form-label">자기소개</label>
+            <textarea type="text" th:field="*{introduction}" class="form-control"></textarea>
+		</div>
+        <button type="submit" class="btn btn-primary">회원가입</button>
+        <a type="button" class="btn btn-primary my-2" th:href="@{/}">취소</a>
+    </form>
+</div>
+</html>
